@@ -52,9 +52,9 @@ pipeline {
           powershell '''
             git config user.email "jaihanspal@gmail.com"
             git config user.name  "Jai1inmillion"
-            $manifest = "deployment.yml"
-            (Get-Content $manifest) -replace 'replaceImageTag', "$env:BUILD_NUMBER" | Set-Content $manifest
-
+            $manifestTemplate = "deployment.yml"
+            $manifest = "argoconfig/deployment.yml"
+            (Get-Content $manifestTemplate) -replace 'replaceImageTag', "$env:BUILD_NUMBER" | Set-Content $manifest
             git add $manifest
             git commit -m "Update deployment image to version $env:BUILD_NUMBER"
             git push "https://${env:GITHUB_TOKEN}@github.com/${env:GIT_USER_NAME}/${env:GIT_REPO_NAME}" HEAD:main
