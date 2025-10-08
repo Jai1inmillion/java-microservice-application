@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: java-microservice
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/Jai1inmillion/java-microservice-application.git
+    targetRevision: main          # or "master" if that's your default branch
+    path: argoconfig              # <-- this is the key change
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: prod               # Argo CD will create this namespace if missing
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
